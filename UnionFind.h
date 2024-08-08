@@ -13,6 +13,7 @@ public:
 
 private:
     std::vector<int> id;
+    std::vector<int> sz;
     int root(int p);
 };
 

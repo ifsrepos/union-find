@@ -8,19 +8,20 @@
 UnionFind::UnionFind(int n) {
     for (int i = 0; i < n; i++) {
         id.push_back(i);
+        sz.push_back(1);
     }
 }
 
-/* @brief Finds the root object of p
- * @param {int} p - Object whose root is being searched
+/* @brief Finds the root object of i
+ * @param {int} i - Object whose root is being searched
  * @returns {int}
  */
-int UnionFind::root(int p) {
-    while(id[p] != p) {
-        p = id[p];
+int UnionFind::root(int i) {
+    while(id[i] != i) {
+        i = id[i];
     }
 
-    return p;
+    return i;
 }
 
 /* @brief Joins the components in which p and q are located by its roots
@@ -31,8 +32,16 @@ void UnionFind::createUnion(int p, int q) {
     int pRoot = this->root(p);
     int qRoot = this->root(q);
 
-    if(this->id[pRoot] != this->id[qRoot]) {
+    if(this->id[pRoot] == this->id[qRoot]) {
+        return;
+    }
+
+    if(this->sz[pRoot] < this->sz[qRoot]) {
         this->id[pRoot] = qRoot;
+        this->sz[qRoot] += this->sz[pRoot];
+    } else {
+        this->id[qRoot] = pRoot;
+        this->sz[pRoot] += this->sz[qRoot];
     }
 }
 
